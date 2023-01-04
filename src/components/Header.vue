@@ -4,22 +4,33 @@
             <LastItem />
         </div>
         <div class="posts">
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
-            <PostItem />
+            <h1 v-if="!posts">Loading...</h1>
+            <PostItem :posts="posts" />
         </div>
     </header>
 </template>
 <script>
 import LastItem from "./LastItem.vue"
 import PostItem from "./Postitem.vue"
+import axios from "../axios"
 export default {
+    data() {
+        return {
+            posts: null
+        }
+    },
     components: {
         LastItem,
         PostItem,
+    },
+    created() {
+        const posts = () => {
+            setTimeout(async () => {
+                const res = await axios.get("/post")
+                this.posts = res.data
+            }, 200)
+        }
+        posts()
     }
 }
 </script>

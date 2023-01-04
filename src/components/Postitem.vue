@@ -1,20 +1,30 @@
 <template>
-    <div class="post">
-        <div class="post__header">
-            <img src="https://daryo.uz/static/2022/12/medium-sorovnoma-1.jpg" alt="">
-            <div class="header__cat">
-                <span>|</span>
-                <span class="cat__name">MAHALLIY</span>
+    <div class="post" v-for="post in posts">
+        <router-link class="link" :to="'/single/' + post._id">
+            <div class="post__header">
+                <img src="https://daryo.uz/static/2022/12/medium-sorovnoma-1.jpg" alt="">
+                <div class="header__cat">
+                    <span>|</span>
+                    <span class="cat__name">{{ post.cat }}</span>
+                </div>
+                <h4 class="post__title">{{ post.title }}</h4>
             </div>
-            <h4>2022-yil Siz uchun qanday o'tdi !</h4>
-        </div>
-        <div class="post__date">
-            <span>2022.12.31</span>
-        </div>
+            <div class="post__date">
+                <span>{{ new Date(post.createdAt).toDateString() }}</span>
+            </div>
+        </router-link>
     </div>
 </template>
 <script>
 export default {
+    props: {
+        posts: {
+            type: Array,
+            required: true,
+        }
+    },
+    created() {
+    }
 }
 </script>
 <style>
@@ -52,5 +62,13 @@ export default {
 
 .post__date span {
     color: #b7b7b7;
+}
+
+.link {
+    text-decoration: none;
+    color: #b7b7b7;
+}
+.post__title {
+    color: #000;
 }
 </style>
