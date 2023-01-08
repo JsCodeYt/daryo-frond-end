@@ -1,31 +1,21 @@
 <template>
     <div class="register">
-        <RouterLink to="/login">
-            <button class="login">Login</button>
-        </RouterLink>
         <form id="form" class="register__form" @submit.prevent>
             <div class="error" v-if="errorMessage">
                 <p>{{ errorMessage }}</p>
             </div>
-            <h1>Ro'yhatdan o'ting</h1>
-            <input type="username" placeholder="username" @input="change_username">
-            <input type="password" placeholder="password" @input="change_password">
-            <div class="file__input">
-                <label for="file__input">
-                    <span class="material-symbols-outlined">
-                        photo_library
-                    </span>
-                </label>
-                <span>Rasm yuklang !</span>
-                <input @input="change_file" type="file" id="file__input" style="display: none;">
-            </div>
-            <button @click="register">Register</button>
+            <h1>Register Daryo</h1>
+            <input type="username" placeholder="username" v-model="post.username">
+            <input type="password" placeholder="password" v-model="post.password">
+            <button @click="register" :disabled="$store.state.auth.user.loading">{{
+                $store.state.auth.user.loading ?
+                    "Loading" : "Register"
+            }}</button>
         </form>
     </div>
 </template>
 <script>
 import { RouterLink } from "vue-router";
-import axios from "../axios"
 export default {
     data() {
         return {
@@ -34,41 +24,17 @@ export default {
                 password: ""
             },
             file: null,
-            errorMessage: ""
+            errorMessage: "",
+            loading: false,
         }
     },
     methods: {
-        change_username(event) {
-            this.post.username = event.target.value
-        },
-        change_password(event) {
-            this.post.password = event.target.value
-        },
         register() {
             this.$store.dispatch("register", {
                 username: this.post.username,
                 password: this.post.password
             })
         },
-        async change_file(event) {
-            this.file = event.target.files[0]
-            console.log(this.file)
-            if (this.file && this.file.size <= 3000) {
-                this.errorMessage = ""
-                const data = new FormData()
-                const filename = Date.now() + this.file.name
-                data.append("name", filename)
-                data.append("file", this.file)
-                try {
-                    const res = await axios.post("/upload", { data })
-                    console.log(res.data)
-                    this.image = filename
-                } catch (error) {
-                    this.errorMessage = error.message
-                    console.log(error.message)
-                }
-            } else this.errorMessage = "Iltimos hajmi 3kb dan oshmagan rasm yulang !"
-        }
     }
 }
 </script>

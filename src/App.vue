@@ -1,14 +1,16 @@
 <template>
   <div class="app">
     <RouterView />
+    <!-- <NewPost/> -->
   </div>
 </template>
 <script>
 import { RouterView } from 'vue-router';
-import axios from "./axios"
+import NewPost from './components/NewPost.vue';
 export default {
-  created() {
-  }
+    created() {
+    },
+    components: { NewPost }
 }
 </script>
 <style>

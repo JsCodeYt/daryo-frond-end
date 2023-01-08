@@ -1,7 +1,9 @@
 <template>
     <div class="navbar">
         <div class="navbar__left">
-            <img src="https://daryo.uz/logo/logo.svg" alt="">
+            <a href="/">
+                <img src="https://daryo.uz/logo/logo.svg" alt="">
+            </a>
         </div>
         <div class="navbar__center">
             <ul class="center__items">
@@ -36,12 +38,18 @@
                 search
             </span>
             <span>UZB</span>
+            <span class="material-symbols-outlined search__icon" @click="isNew">
+                videocam
+            </span>
         </div>
     </div>
 </template>
 <script>
 export default {
-
+    methods: {
+        isNew() {
+        }
+    }
 }
 </script>
 <style scoped>
